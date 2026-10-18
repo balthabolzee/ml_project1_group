@@ -35,9 +35,11 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
 
         for y_batch, tx_batch in batch_iter(y, tx, batch_size=1, num_batches=1):
 
-            e = y_batch - tx_batch @ w
+            e = y - tx @ w
             mse = 1 / (2*len(e)) * e.T @ e
-            grad_mse = - 1 / len(e) * tx.T @ e
+
+            stochastic_e = y_batch - tx_batch @ w
+            grad_mse = - 1 / len(stochastic_e) * tx.T @ stochastic_e
             
             w = w - gamma * grad_mse
 
