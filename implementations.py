@@ -72,10 +72,42 @@ def ridge_regression(y, tx, lambda_):
     mse = 1 / 2 * np.mean(e**2)
     return w, mse
 
+
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    """Logistic regression with GD, y in {0,1}. Returns (w, loss)."""
-    raise NotImplementedError
+    """Logistic regression using gradient descent. Returns (w, loss)."""
+
+    w = initial_w.copy()
+    n = len(y)
+
+    for _ in range(max_iters):
+        z = tx @ w
+        sigmoid = 1 / (1 + np.exp(-np.clip(z, -500, 500)))
+
+        gradient = tx.T @ (sigmoid - y) / n
+        w = w - gamma * gradient
+
+    z = tx @ w
+    loss = np.mean(np.logaddexp(0, z) - y * z)
+
+    return w, loss
+
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """L2-regularized logistic regression. Loss without penalty."""
-    raise NotImplementedError
+
+    w = initial_w.copy()
+    n = len(y)
+
+    for _ in range(max_iters):
+        z = tx @ w
+        sigmoid = 1 / (1 + np.exp(-np.clip(z, -500, 500)))
+
+        gradient = tx.T @ (sigmoid - y) / n
+        gradient = gradient + 2 * lambda_ * w
+
+        w = w - gamma * gradient
+
+    z = tx @ w
+    loss = np.mean(np.logaddexp(0, z) - y * z)
+
+    return w, loss
