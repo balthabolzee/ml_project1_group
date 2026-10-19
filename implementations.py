@@ -48,20 +48,29 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     return w, loss
 
 
-
-
-
-
-
-
-
 def least_squares(y, tx):
     """Least squares via normal equations (no np.linalg.lstsq)."""
-    raise NotImplementedError
+    
+    a = tx.T.dot(tx)
+    b = tx.T.dot(y)
+    w = np.linalg.solve(a, b)
+    
+    e = y - tx.dot(w)
+    mse = 1 / 2 * np.mean(e**2)
+    
+    return w, mse
+
 
 def ridge_regression(y, tx, lambda_):
     """Ridge regression via normal equations. Loss without penalty."""
-    raise NotImplementedError
+    aI = 2 * tx.shape[0] * lambda_ * np.identity(tx.shape[1])
+    a = tx.T.dot(tx) + aI
+    b = tx.T.dot(y)
+    w = np.linalg.solve(a, b)
+
+    e = y - tx.dot(w)
+    mse = 1 / 2 * np.mean(e**2)
+    return w, mse
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
     """Logistic regression with GD, y in {0,1}. Returns (w, loss)."""
