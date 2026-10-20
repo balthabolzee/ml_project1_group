@@ -57,8 +57,9 @@ def least_squares(y, tx):
     
     e = y - tx.dot(w)
     mse = 1 / 2 * np.mean(e**2)
+    loss = mse
     
-    return w, mse
+    return w, loss
 
 
 def ridge_regression(y, tx, lambda_):
@@ -70,7 +71,8 @@ def ridge_regression(y, tx, lambda_):
 
     e = y - tx.dot(w)
     mse = 1 / 2 * np.mean(e**2)
-    return w, mse
+    loss = mse
+    return w, loss
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
