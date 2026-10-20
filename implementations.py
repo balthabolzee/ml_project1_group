@@ -48,6 +48,9 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     return w, loss
 
 
+
+
+
 def least_squares(y, tx):
     """Least squares via normal equations (no np.linalg.lstsq)."""
     
@@ -62,8 +65,12 @@ def least_squares(y, tx):
     return w, loss
 
 
+
+
+
 def ridge_regression(y, tx, lambda_):
     """Ridge regression via normal equations. Loss without penalty."""
+
     aI = 2 * tx.shape[0] * lambda_ * np.identity(tx.shape[1])
     a = tx.T.dot(tx) + aI
     b = tx.T.dot(y)
@@ -72,7 +79,12 @@ def ridge_regression(y, tx, lambda_):
     e = y - tx.dot(w)
     mse = 1 / 2 * np.mean(e**2)
     loss = mse
+    
     return w, loss
+
+
+
+
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
@@ -92,6 +104,8 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     loss = np.mean(np.logaddexp(0, z) - y * z)
 
     return w, loss
+
+
 
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
